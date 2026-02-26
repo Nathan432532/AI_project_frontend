@@ -11,14 +11,12 @@ interface Filters {
 }
 
 interface SearchPageProps {
-    userName?: string;
     onSearch?: (query: string, files: File[], filters: Filters) => void;
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function SearchPage({
-    userName = 'Voornaam Achternaam',
     onSearch,
 }: SearchPageProps) {
     const [query, setQuery] = useState<string>('');
@@ -80,18 +78,6 @@ export default function SearchPage({
 
   return (
     <div className={styles.page}>
-
-      {/* HEADER */}
-      <header className={styles.header}>
-        <div className={styles.logo}>
-          <img src="/src/assets/infofarm.png" alt="InfoSearch Logo" className={styles.logoIcon} />
-          <h1 className={styles.logoTitle}>InfoSearch</h1>
-        </div>
-        <div className={styles.profile}>
-          <span className={styles.userName}>{userName}</span>
-          <div className={styles.profileIcon}>👤</div>
-        </div>
-      </header>
 
 
       {/* MAIN */}
