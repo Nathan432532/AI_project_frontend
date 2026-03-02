@@ -100,13 +100,21 @@
   background-color: rgb(249, 249, 249);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
   display: grid;
-  grid-template-columns: 40px 1fr auto;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 40px 1fr auto; /* index | inhoud | acties */
+  grid-template-rows: 
+    auto  /* Bedrijfsnaam + score */
+    auto  /* Beschrijving */
+    auto  /* Waarom */
+    auto  /* Locatie */
+    auto  /* Sector */
+    auto  /* Techstack */
+    auto; /* eventueel extra info */
+  gap: 5px;
   align-items: start;
 }
-
 .resultIndex {
   font-weight: bold;
   font-size: 1.2em;
@@ -137,6 +145,14 @@
   margin: 25px 0 0 0;
   grid-column: 2 / 3;
   grid-row: 2 / 3;
+  line-height: 1.5;
+}
+
+.resultWhy {
+  color: #666;
+  margin: 10px 0 0 0;
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
   line-height: 1.5;
 }
 
@@ -215,3 +231,12 @@
 .thumbDown.active {
   background-color: #fde8ea;
 }
+
+.resultIndex { grid-column: 1 / 2; grid-row: 1 / 2; font-weight: bold; color: rgb(16,191,124); } 
+.resultName { grid-column: 2 / 3; grid-row: 1 / 2; font-size: 1.4em; color: #111; margin: 0; } 
+.resultScore { grid-column: 3 / 4; grid-row: 1 / 2; font-size: 1.2em; } 
+.resultDescription { grid-column: 2 / 3; grid-row: 2 / 3; color: #666; margin: 0; line-height: 1.5; } 
+.resultWhy { grid-column: 2 / 3; grid-row: 3 / 4; color: #666; margin: 0; line-height: 1.5; } 
+.resultLocatie { grid-column: 2 / 3; grid-row: 4 / 5; color: #666; margin: 0; } 
+.resultSector { grid-column: 2 / 3; grid-row: 5 / 6; color: #666; margin: 0; } 
+.resultTechstack { grid-column: 2 / 3; grid-row: 6 / 7; color: #666; margin: 0; }

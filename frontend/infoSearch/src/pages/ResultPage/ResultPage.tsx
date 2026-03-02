@@ -89,26 +89,42 @@ const DUMMY_RESULTS: SearchResult[] = [
 interface ResultCardProps {
   result: SearchResult;
   onReadMore: (result: SearchResult) => void;
-  onContact: (result: SearchResult) => void;
+  onSave?: (result: SearchResult) => void;
 }
 
-function ResultCard({ result, onReadMore }: ResultCardProps) {
+function ResultCard({ result, onReadMore, onSave }: ResultCardProps) {
   const [feedback, setFeedback] = useState<'up' | 'down' | null>(null);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <li className={styles.result}>
       <p className={styles.resultIndex}>{result.id}.</p>
       <h2 className={styles.resultName}>{result.bedrijfsnaam}</h2>
-      <p className={styles.resultDescription}>{result.beschrijving}</p>
+      <p className={styles.resultDescription}>
+        {expanded ? result.beschrijving : result.beschrijving.slice(0, 120) + "..."}
+      </p>
+
+      {/* EXTRA INFO alleen tonen als expanded */}
+      {expanded && (
+        <>
+          <p className={styles.resultWhy}><strong>Waarom:</strong> {result.waarom}</p>
+          <p className={styles.resultLocatie}><strong>Locatie:</strong> {result.locatie}</p>
+          <p className={styles.resultSector}><strong>Sector:</strong> {result.sector}</p>
+          <p className={styles.resultTechstack}><strong>Techstack:</strong> {result.techstack.join(", ")}</p>
+          <p className={styles.resultContact}><strong>Contact:</strong> {result.contactgegevens}</p>
+        </>
+      )}
 
       <div className={styles.resultActions}>
-      <p className={styles.resultScore}>Score: {result.score}/10</p>
+        <p className={styles.resultScore}>Score: {result.score}/10</p>
+
         <button
           className={styles.btnMore}
-          onClick={() => onReadMore(result)}
+          onClick={() => setExpanded(!expanded)}
         >
-          Lees meer
+          {expanded ? "Toon minder" : "Lees meer"}
         </button>
+
         <div className={styles.feedbackButtons}>
           <button
             className={`${styles.thumbUp} ${feedback === 'up' ? styles.active : ''}`}
@@ -126,6 +142,14 @@ function ResultCard({ result, onReadMore }: ResultCardProps) {
             <FaThumbsDown />
           </button>
         </div>
+          {expanded && (
+            <button
+              className={styles.btnSave}
+              onClick={() => onSave?.(result)}
+            >
+              Opslaan
+            </button>
+          )}
       </div>
     </li>
   );
@@ -180,7 +204,6 @@ export default function ResultsPage({
             key={result.id}
             result={result}
             onReadMore={handleReadMore}
-            onContact={handleContact}
           />
         ))}
       </ul>
