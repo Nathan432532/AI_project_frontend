@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styles from './ResultPage.module.css';
 import jsPDF from 'jspdf';
-
+import { Link } from 'react-router-dom';
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface SearchResult {
@@ -19,8 +20,6 @@ export interface SearchResult {
 interface ResultsPageProps {
   results?: SearchResult[];
   onSave?: () => void;
-  onExport?: () => void;
-  onNewSearch?: () => void;
   onReadMore?: (result: SearchResult) => void;
   onContact?: (result: SearchResult) => void;
 }
@@ -93,7 +92,7 @@ interface ResultCardProps {
   onContact: (result: SearchResult) => void;
 }
 
-function ResultCard({ result, onReadMore, onContact }: ResultCardProps) {
+function ResultCard({ result, onReadMore }: ResultCardProps) {
   const [feedback, setFeedback] = useState<'up' | 'down' | null>(null);
 
   return (
@@ -103,17 +102,12 @@ function ResultCard({ result, onReadMore, onContact }: ResultCardProps) {
       <p className={styles.resultDescription}>{result.beschrijving}</p>
 
       <div className={styles.resultActions}>
+      <p className={styles.resultScore}>Score: {result.score}/10</p>
         <button
           className={styles.btnMore}
           onClick={() => onReadMore(result)}
         >
           Lees meer
-        </button>
-        <button
-          className={styles.btnContact}
-          onClick={() => onContact(result)}
-        >
-          Toon contactgegevens
         </button>
         <div className={styles.feedbackButtons}>
           <button
@@ -121,14 +115,15 @@ function ResultCard({ result, onReadMore, onContact }: ResultCardProps) {
             onClick={() => setFeedback(feedback === 'up' ? null : 'up')}
             title="Positieve feedback"
           >
-            👍
+            <FaThumbsUp />
           </button>
+
           <button
             className={`${styles.thumbDown} ${feedback === 'down' ? styles.active : ''}`}
             onClick={() => setFeedback(feedback === 'down' ? null : 'down')}
             title="Negatieve feedback"
           >
-            👎
+            <FaThumbsDown />
           </button>
         </div>
       </div>
@@ -141,7 +136,6 @@ function ResultCard({ result, onReadMore, onContact }: ResultCardProps) {
 export default function ResultsPage({
   results = DUMMY_RESULTS,
   onSave,
-  onNewSearch,
   onReadMore,
   onContact,
 }: ResultsPageProps) {
@@ -169,9 +163,11 @@ export default function ResultsPage({
         <button className={styles.btnExport} onClick={() => downloadAsPDF(results, "zoekresultaten.pdf")}>
           Exporteren
         </button>
-        <button className={styles.btnNew} onClick={onNewSearch}>
+        <Link to="/keuze">
+        <button className={styles.btnNew}>
           Nieuwe zoekopdracht
         </button>
+        </Link>
       </div>
 
       {/* AANTAL RESULTATEN */}

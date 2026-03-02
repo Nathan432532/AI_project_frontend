@@ -9,7 +9,7 @@
 }
 
 .main > * {
-  min-width: 100%;
+  width: 100%;
 }
 
 /* ===== TITLE ===== */
@@ -121,6 +121,14 @@
   color: #111;
   margin: 0;
   grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.resultScore {
+  font-size: 1.4em;
+  color: #111;
+  margin: 0;
+  grid-column: 3 / 4;
   grid-row: 1 / 2;
 }
 
