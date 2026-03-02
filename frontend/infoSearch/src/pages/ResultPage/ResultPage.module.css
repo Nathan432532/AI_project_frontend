@@ -1,0 +1,209 @@
+/* ===== MAIN ===== */
+.main {
+  background-color: rgb(164, 214, 195);
+  flex-grow: 1;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main > * {
+  min-width: 100%;
+}
+
+/* ===== TITLE ===== */
+.title {
+  color: rgb(16, 191, 124);
+  font-size: 2.5em;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.actionBar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btnSave {
+  background-color: rgb(16, 191, 124);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnSave:hover {
+  background-color: rgb(13, 153, 99);
+}
+
+.btnExport {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnExport:hover {
+  background-color: #111;
+}
+
+.btnNew {
+  background-color: rgb(16, 191, 124);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnNew:hover {
+  background-color: rgb(13, 153, 99);
+}
+
+/* ===== RESULT COUNT ===== */
+.resultCount {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* ===== RESULTS LIST ===== */
+.resultsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ===== RESULT CARD ===== */
+.result {
+  background-color: rgb(249, 249, 249);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+}
+
+.resultIndex {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: rgb(16, 191, 124);
+  margin: 0;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.resultName {
+  font-size: 1.4em;
+  color: #111;
+  margin: 0;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.resultDescription {
+  color: #666;
+  margin: 25px 0 0 0;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  line-height: 1.5;
+}
+
+/* ===== RESULT ACTIONS ===== */
+.resultActions {
+  grid-column: 3 / 4;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin-left: 15px;
+  justify-self: end;
+}
+
+.btnMore {
+  background-color: rgb(16, 191, 124);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+  font-size: 0.95em;
+}
+
+.btnMore:hover {
+  background-color: rgb(13, 153, 99);
+}
+
+.btnContact {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+  font-size: 0.95em;
+}
+
+.btnContact:hover {
+  background-color: #0056b3;
+}
+
+/* ===== FEEDBACK BUTTONS ===== */
+.feedbackButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.thumbUp,
+.thumbDown {
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.thumbUp:hover,
+.thumbDown:hover {
+  background-color: #ccc;
+  transform: scale(1.1);
+}
+
+.thumbUp.active {
+  background-color: #d4f5e9;
+}
+
+.thumbDown.active {
+  background-color: #fde8ea;
+}
