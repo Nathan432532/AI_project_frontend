@@ -2,6 +2,7 @@ import SearchPage from "./pages/SearchPage";
 import Header from "./components/Header/Header";
 import { Route, Routes } from "react-router-dom";
 import ResultsPage from "./pages/ResultPage";
+import NotFound from "./pages/NotFoundPage";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         */}
         <Route path="/search" element={<SearchPage />} />
         <Route path="/results" element={<ResultsPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   )
