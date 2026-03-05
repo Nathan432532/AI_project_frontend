@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ResultPage.module.css';
 import jsPDF from 'jspdf';
 import { Link } from 'react-router-dom';
@@ -25,6 +25,7 @@ interface ResultsPageProps {
 }
 
 // ── Dummy data (verwijder dit als je echte data van de backend krijgt) ─────────
+
 
 const DUMMY_RESULTS: SearchResult[] = [
  {
@@ -88,11 +89,9 @@ const DUMMY_RESULTS: SearchResult[] = [
 
 interface ResultCardProps {
   result: SearchResult;
-  onReadMore: (result: SearchResult) => void;
-  onSave?: (result: SearchResult) => void;
 }
 
-function ResultCard({ result, onReadMore, onSave }: ResultCardProps) {
+function ResultCard({ result }: ResultCardProps) {
   const [feedback, setFeedback] = useState<'up' | 'down' | null>(null);
   const [expanded, setExpanded] = useState(false);
 
@@ -145,7 +144,7 @@ function ResultCard({ result, onReadMore, onSave }: ResultCardProps) {
           {expanded && (
             <button
               className={styles.btnSave}
-              onClick={() => onSave?.(result)}
+              onClick={() => saveToDatabase(result)}
             >
               Opslaan
             </button>
@@ -157,23 +156,30 @@ function ResultCard({ result, onReadMore, onSave }: ResultCardProps) {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function ResultsPage({
-  results = DUMMY_RESULTS,
-  onSave,
-  onReadMore,
-  onContact,
-}: ResultsPageProps) {
+export default function ResultsPage() {
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleReadMore = (result: SearchResult) => {
-    onReadMore?.(result);
-    console.log('Lees meer:', result);
-  };
+  useEffect(() => {
+    const fetchResult = async () => {
+      try {
+        const response = await fetch('/api/results');
+        if (!response.ok) throw new Error('Failed to fetch results');
+        const data = await response.json();
+        setResults(data);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'Onbekende fout');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchResult();
+  }, []);
 
-  const handleContact = (result: SearchResult) => {
-    onContact?.(result);
-    console.log('Contactgegevens:', result);
-  };
-
+  if (loading) return <p>Laden...</p>;
+  if (error) console.error('Fout bij ophalen resultaten:', error);
+  if (results.length === 0) setResults(DUMMY_RESULTS); // Gebruik dummy data als er geen resultaten zijn
   return (
     <main className={styles.main}>
 
@@ -181,7 +187,7 @@ export default function ResultsPage({
 
       {/* ACTIE KNOPPEN */}
       <div className={styles.actionBar}>
-        <button className={styles.btnSave} onClick={onSave}>
+        <button className={styles.btnSave} onClick={() => saveToDatabase(results)}>
           Opslaan
         </button>
         <button className={styles.btnExport} onClick={() => downloadAsPDF(results, "zoekresultaten.pdf")}>
@@ -203,7 +209,6 @@ export default function ResultsPage({
           <ResultCard
             key={result.id}
             result={result}
-            onReadMore={handleReadMore}
           />
         ))}
       </ul>
@@ -258,4 +263,22 @@ export const downloadAsPDF = (data: SearchResult[], filename = "report.pdf") => 
   });
 
   doc.save(filename);
+}
+
+const saveToDatabase = async (data: SearchResult | SearchResult[]) => {
+  try {
+    const response = await fetch('/api/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error('Opslaan mislukt');
+    alert('Data succesvol opgeslagen!');
+  } catch (error) {
+    console.error('Fout bij opslaan:', error);
+    alert('Er is een fout opgetreden bij het opslaan.');
+  }
 }
