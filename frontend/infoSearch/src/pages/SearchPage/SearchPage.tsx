@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import styles from './SearchPage.module.css';
+import { FolderOpen, File } from 'lucide-react';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -110,7 +111,7 @@ export default function SearchPage({
                 onDragLeave={handleDragLeave}
                 onClick={() => fileInputRef.current?.click()}
               >
-                <div className={styles.uploadZoneIcon}>📂</div>
+                <div className={styles.uploadZoneIcon}> <FolderOpen color="#000"></FolderOpen></div>
                 <p className={styles.uploadZoneText}>
                   Sleep bestanden hierheen of klik om te bladeren.
                 </p>
@@ -129,7 +130,8 @@ export default function SearchPage({
                 <div className={styles.fileList}>
                   {files.map((file) => (
                     <div key={file.name} className={styles.fileChip}>
-                      📄 {file.name}
+                      <File />
+                      {file.name}
                       <button
                         type="button"
                         className={styles.removeFileBtn}
