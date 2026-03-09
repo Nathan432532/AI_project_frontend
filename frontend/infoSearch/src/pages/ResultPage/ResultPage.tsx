@@ -3,6 +3,7 @@ import styles from './ResultPage.module.css';
 import jsPDF from 'jspdf';
 import { Link } from 'react-router-dom';
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import * as XLSX from 'xlsx';
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface SearchResult {
@@ -39,29 +40,41 @@ const DUMMY_RESULTS: SearchResult[] = [
     "locatie": "België",
     "sector": "Prefab betonoplossingen"
   },
+  {
+    'id': 2, 
+    'bedrijfsnaam': 'METAL-FORMING BELGIUM', 
+    'beschrijving': 'Metal-Forming Belgium heeft een technische infrastructuur die perfect is voor de Predictive Maintenance software. Ze gebruiken Siemens S7-1500 systemen en Profinet, wat direct in line is met het product.', 
+    'waarom': 'De tech-stack van Metal-Forming Belgium bevat exact dezelfde componenten als nodig zijn voor dePredictive Maintenance software. Dit zorgt voor een optimale integratie.', 
+    'score': 10, 
+    'contactgegevens': 'l.mertens@metalforming.be', 
+    'techstack': ['Siemens S7-1500', 'Profinet'], 
+    'locatie': 'Staalweg 88, 3600 Genk, Limburg, Genk-Zuid', 
+    'sector': 'Zware Metaalindustrie'}, 
+  
+  {
+    'id': 3, 
+    'bedrijfsnaam': 
+    'AGRO-BOTICS NV', 
+    'beschrijving': 'AGRO-BOTICS NV heeft een technische infrastructuur die compatibel is met de Predictive Maintenance software. Ze gebruiken Siemens S7-1500 systemen en hebben een sterk focus op robotica, wat perfect aansluit bij het product.', 
+    'waarom': 'De tech-stack bevat Siemens S7-1500 systemen die compatibel zijn met de Predictive Maintenance software. De sector en technologie passen goed aan, zeker voor automatische foutmeldingen via Profinet.', 
+    'score': 8, 
+    'contactgegevens': 'Dirk Vanhecke, Technisch Directeur, d.vanhecke@agrobotics.be, +32 56 12 34 56', 
+    'techstack': ['Siemens S7-1500', 'CAN-bus'], 
+    'locatie': 'Kouterstraat 15, 8500 Kortrijk, West-Vlaanderen', 
+    'sector': 'Landbouwmechanisatie & Robotica'
+  }, 
+  {
+    'id': 3, 
+    'bedrijfsnaam': 'BREW-TECH AUTOMATION', 
+    'beschrijving': 'Brew-Tech Automation heeft een technische infrastructuur die compatibel is met de Predictive Maintenance software, hoewel ze geen directe compatibiliteit hebben met Siemens S7-1500. Ze kunnen het product wel integreren via Profinet.', 
+    'waarom': 'Hoewel Brew-Tech Automation geen directe compatibiliteit heeft met de exacte technologieën van het product, biedt hun machinepark en business-triggers een potentiële omgeving waarin het product zou kunnen werken. De sector is ook relevant.', 
+    'score': 5, 
+    'contactgegevens': 'maintenance@brewtech.com', 
+    'techstack': ['Schneider Electric (EcoStruxure)', 'Modbus TCP'], 
+    'locatie': 'Brouwerijstraat 1, 3080 Tervuren, Vlaams-Brabant', 
+    'sector': 'Voedering (Brouwerijen)'
+  },
  {
-    "id": 2,
-    "bedrijfsnaam": "NV INDUSTRI-BUILD BELGIUM",
-    "beschrijving": "Een bedrijf dat actief is in het gebied van prefab betonoplossingen, met een specifieke focus op PLC-gestuurde machines.",
-    "waarom": "De technologische stack en machineparkering van NV INDUSTRI-BUILD BELGIUM zijn sterk gericht op industriële automatisering, wat een goede match is voor de technologie die nodig is in een mail cleaner. Hoewel het bedrijf niet direct met e-mailfilteringe ervaring bekend is, kan de technische expertise worden omgezet.",
-    "score": 7,
-    "contactgegevens": "N/A",
-    "techstack": ["Siemens S7"],
-    "locatie": "België",
-    "sector": "Prefab betonoplossingen"
-  },
-   {
-    "id": 3,
-    "bedrijfsnaam": "NV INDUSTRI-BUILD BELGIUM",
-    "beschrijving": "Een bedrijf dat actief is in het gebied van prefab betonoplossingen, met een specifieke focus op PLC-gestuurde machines.",
-    "waarom": "De technologische stack en machineparkering van NV INDUSTRI-BUILD BELGIUM zijn sterk gericht op industriële automatisering, wat een goede match is voor de technologie die nodig is in een mail cleaner. Hoewel het bedrijf niet direct met e-mailfilteringe ervaring bekend is, kan de technische expertise worden omgezet.",
-    "score": 7,
-    "contactgegevens": "N/A",
-    "techstack": ["Siemens S7"],
-    "locatie": "België",
-    "sector": "Prefab betonoplossingen"
-  },
-   {
     "id": 4,
     "bedrijfsnaam": "NV INDUSTRI-BUILD BELGIUM",
     "beschrijving": "Een bedrijf dat actief is in het gebied van prefab betonoplossingen, met een specifieke focus op PLC-gestuurde machines.",
@@ -82,8 +95,7 @@ const DUMMY_RESULTS: SearchResult[] = [
     "techstack": ["Siemens S7"],
     "locatie": "België",
     "sector": "Prefab betonoplossingen"
-  }
-];
+  }]
 
 // ── Sub-component: ResultCard ─────────────────────────────────────────────────
 
@@ -190,7 +202,7 @@ export default function ResultsPage() {
         <button className={styles.btnSave} onClick={() => saveToDatabase(results)}>
           Opslaan
         </button>
-        <button className={styles.btnExport} onClick={() => downloadAsPDF(results, "zoekresultaten.pdf")}>
+        <button className={styles.btnExport} onClick={() => downloadAsExcel(results, "zoekresultaten.xlsx")}>
           Exporteren
         </button>
         <Link to="/keuze">
@@ -217,53 +229,43 @@ export default function ResultsPage() {
   );
 }
 
-export const downloadAsPDF = (data: SearchResult[], filename = "report.pdf") => {
-  const doc = new jsPDF();
+export const downloadAsExcel = (data: SearchResult[], filename = "report.xlsx") => {
+  // 1. Transformeer de data naar een platte structuur (geschikt voor kolommen)
+  const worksheetData = data.map(item => ({
+    ID: item.id,
+    Bedrijf: item.bedrijfsnaam,
+    Score: `${item.score}/10`,
+    Locatie: item.locatie,
+    Sector: item.sector,
+    Techstack: item.techstack.join(", "),
+    Contact: item.contactgegevens,
+    Beschrijving: item.beschrijving,
+    Waarom: item.waarom
+  }));
 
-  let y = 20;
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const margin = 20;
-  const maxwidth = pageWidth - margin * 2;
+  // 2. Maak een nieuw werkblad en een 'workbook' aan
+  const worksheet = XLSX.utils.json_to_sheet(worksheetData);
 
-  doc.setFontSize(16);
-  doc.text("Data Report", margin, y);
-  y += 10;
-  
-  doc.setFontSize(12);
+  const objectMaxLength: number[] = [];
+  const keys = Object.keys(worksheetData[0]);
 
-  data.forEach((item) => {
-    doc.text(`${item.id}. ${item.bedrijfsnaam}`, margin, y);
-    doc.text(`${item.score}/10`, pageWidth - margin - 20, y);
-    y += 8;
-
-    doc.text(`Locatie: ${item.locatie}`, margin + 10, y);
-    y += 10;
-
-    doc.text(`Sector: ${item.sector}`, margin + 10, y);
-    y += 10;
-
-    doc.text(`Techstack: ${item.techstack.join(", ")}`, margin + 10, y);
-    y += 10;
-
-    doc.text(`Contact: ${item.contactgegevens}`, margin + 10, y);
-    y += 10;
-
-    const wrapperBeschrijving = doc.splitTextToSize(item.beschrijving, maxwidth);
-    doc.text(wrapperBeschrijving, margin + 10, y);
-    y += wrapperBeschrijving.length * 8;
-
-    const wrapperWaarom = doc.splitTextToSize(item.waarom, maxwidth);
-    doc.text(wrapperWaarom, margin + 10, y);
-    y += wrapperWaarom.length * 8;
-
-    if (y > 270) {
-      doc.addPage();
-      y = 20;
-    }
+  worksheetData.forEach((row) => {
+    keys.forEach((key, index) => {
+      const value = row[key as keyof typeof row] ? row[key as keyof typeof row].toString() : "";
+      const columnWidth = value.length;
+      
+      // Vergelijk huidige breedte met de vorige opgeslagen breedte
+      objectMaxLength[index] = Math.max(objectMaxLength[index] || 10, columnWidth);
+    });
   });
 
-  doc.save(filename);
-}
+  worksheet['!cols'] = objectMaxLength.map((w) => ({ wch: w + 2 }));
+
+  // 4. Maak het workbook en sla op
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+  XLSX.writeFile(workbook, filename);
+};
 
 const saveToDatabase = async (data: SearchResult | SearchResult[]) => {
   try {
