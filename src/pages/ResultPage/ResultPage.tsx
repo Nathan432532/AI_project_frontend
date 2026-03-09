@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './ResultPage.module.css';
-import jsPDF from 'jspdf';
 import { Link } from 'react-router-dom';
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import * as XLSX from 'xlsx';
+import { downloadAsExcel } from '../../scripts/downloadxl';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface SearchResult {
@@ -98,12 +99,7 @@ const DUMMY_RESULTS: SearchResult[] = [
   }]
 
 // ── Sub-component: ResultCard ─────────────────────────────────────────────────
-
-interface ResultCardProps {
-  result: SearchResult;
-}
-
-function ResultCard({ result }: ResultCardProps) {
+function ResultCard({ result }: {result: SearchResult}) {
   const [feedback, setFeedback] = useState<'up' | 'down' | null>(null);
   const [expanded, setExpanded] = useState(false);
 
@@ -176,7 +172,7 @@ export default function ResultsPage() {
   useEffect(() => {
     const fetchResult = async () => {
       try {
-        const response = await fetch('/api/results');
+        const response = await fetch('${API_BASE_URL}/api/results');
         if (!response.ok) throw new Error('Failed to fetch results');
         const data = await response.json();
         setResults(data);
@@ -228,44 +224,6 @@ export default function ResultsPage() {
     </main>
   );
 }
-
-export const downloadAsExcel = (data: SearchResult[], filename = "report.xlsx") => {
-  // 1. Transformeer de data naar een platte structuur (geschikt voor kolommen)
-  const worksheetData = data.map(item => ({
-    ID: item.id,
-    Bedrijf: item.bedrijfsnaam,
-    Score: `${item.score}/10`,
-    Locatie: item.locatie,
-    Sector: item.sector,
-    Techstack: item.techstack.join(", "),
-    Contact: item.contactgegevens,
-    Beschrijving: item.beschrijving,
-    Waarom: item.waarom
-  }));
-
-  // 2. Maak een nieuw werkblad en een 'workbook' aan
-  const worksheet = XLSX.utils.json_to_sheet(worksheetData);
-
-  const objectMaxLength: number[] = [];
-  const keys = Object.keys(worksheetData[0]);
-
-  worksheetData.forEach((row) => {
-    keys.forEach((key, index) => {
-      const value = row[key as keyof typeof row] ? row[key as keyof typeof row].toString() : "";
-      const columnWidth = value.length;
-      
-      // Vergelijk huidige breedte met de vorige opgeslagen breedte
-      objectMaxLength[index] = Math.max(objectMaxLength[index] || 10, columnWidth);
-    });
-  });
-
-  worksheet['!cols'] = objectMaxLength.map((w) => ({ wch: w + 2 }));
-
-  // 4. Maak het workbook en sla op
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
-  XLSX.writeFile(workbook, filename);
-};
 
 const saveToDatabase = async (data: SearchResult | SearchResult[]) => {
   try {
