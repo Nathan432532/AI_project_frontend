@@ -6,6 +6,7 @@ import JobResultPage from "./pages/ResultPages/ResultPageJob";
 import CompanyResultPage from "./pages/ResultPages/ResultPageCompany/CompanyResultPage";
 import SearchPageJob from "./pages/SearchPages/SearchPageJob";
 import SearchPageCompany from "./pages/SearchPages/SearchPageCompany/SearchPageCompany";
+import SavedResultsPage from "./pages/SavedResultsPage/SavedResultsPage";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/results/company" element={<CompanyResultPage />} />
         <Route path="/results/job" element={<JobResultPage />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/saved" element={<SavedResultsPage />} />
       </Routes>
     </>
   )
