@@ -17,7 +17,7 @@ interface SearchPageProps {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function SearchPage({
+export default function SearchPageCompany({
     onSearch,
 }: SearchPageProps) {
     const [query, setQuery] = useState<string>('');
