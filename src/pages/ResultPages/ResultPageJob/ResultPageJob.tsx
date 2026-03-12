@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import styles from './JobResultPage.module.css';
-import { downloadAsExcel } from '../../scripts/downloadxl';
+import { downloadAsExcel } from '../../../scripts/downloadxl';
 import { Pin, CircuitBoard } from 'lucide-react';
 
 

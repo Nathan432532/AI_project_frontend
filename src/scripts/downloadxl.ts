@@ -1,5 +1,5 @@
 import * as XLSX from "xlsx";
-import type { CompanyResult } from "../pages/ResultPageCompany/CompanyResultPage";
+import type { CompanyResult } from "../pages/ResultPages/ResultPageCompany/CompanyResultPage";
 
 export const downloadAsExcel = (
   data: CompanyResult[],

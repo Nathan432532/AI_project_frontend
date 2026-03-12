@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import styles from './SearchPage.module.css';
-import { FolderOpen, File } from 'lucide-react';
+import { FolderOpen, File, Search } from 'lucide-react';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -17,7 +17,7 @@ interface SearchPageProps {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function SearchPageCompany({
+export default function SearchPageJob({
     onSearch,
 }: SearchPageProps) {
     const [query, setQuery] = useState<string>('');
@@ -222,7 +222,7 @@ export default function SearchPageCompany({
 
             {/* SUBMIT */}
             <button type="submit" className={styles.submitBtn}>
-              🔍 Start zoekopdracht
+              <Search /> Start zoekopdracht
             </button>
 
           </form>
