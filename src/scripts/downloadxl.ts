@@ -1,8 +1,8 @@
 import * as XLSX from "xlsx";
-import type { SearchResult } from "../pages/ResultPage/ResultPage";
+import type { CompanyResult } from "../pages/ResultPageCompany/CompanyResultPage";
 
 export const downloadAsExcel = (
-  data: SearchResult[],
+  data: CompanyResult[],
   filename = "report.xlsx",
 ) => {
   // 1. Transformeer de data naar een platte structuur (geschikt voor kolommen)
