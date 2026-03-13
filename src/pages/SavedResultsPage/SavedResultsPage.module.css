@@ -2,6 +2,7 @@
 .main {
   background-color: rgb(164, 214, 195);
   flex-grow: 1;
+  min-height: 100vh;
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
