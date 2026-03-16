@@ -1,5 +1,5 @@
 import Header from "./components/Header/Header";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import NotFound from "./pages/NotFoundPage";
 import ChoicePage from "./pages/ChoicePage/ChoicePage";
 import JobResultPage from "./pages/ResultPages/ResultPageJob";
@@ -9,16 +9,19 @@ import SearchPageCompany from "./pages/SearchPages/SearchPageCompany/SearchPageC
 import SavedResultsPage from "./pages/SavedResultsPage/SavedResultsPage";
 import AdminSettingsPageCompany from "./pages/AdminPage/AdminPageCompany/AdminSettingsPage";
 import AdminSettingsPageJobs from "./pages/AdminPage/AdminPageJobs/AdminSettingsPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 
 function App() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/login';
+
   return (
     <>
-      <Header userName="Jan Janssen" />
+      <Header userName="Jan Janssen" showProfile={!isLoginPage} />
       <Routes>
-        {/*<Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        */}
+        {/*<Route path="/" element={<Home />} />*/}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/keuze" element={<ChoicePage />} />
         <Route path="/search/job" element={<SearchPageJob />} />
         <Route path="/search/company" element={<SearchPageCompany />} />
