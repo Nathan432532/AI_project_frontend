@@ -6,9 +6,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
-.main > * {
+.main>* {
   width: 100%;
   max-width: 900px;
 }
@@ -41,7 +42,10 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.btnSave:hover { background-color: rgb(13, 153, 99); }
+
+.btnSave:hover {
+  background-color: rgb(13, 153, 99);
+}
 
 .btnExport {
   background-color: #333;
@@ -54,7 +58,10 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.btnExport:hover { background-color: #111; }
+
+.btnExport:hover {
+  background-color: #111;
+}
 
 .btnNew {
   background-color: rgb(16, 191, 124);
@@ -67,7 +74,10 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.btnNew:hover { background-color: rgb(13, 153, 99); }
+
+.btnNew:hover {
+  background-color: rgb(13, 153, 99);
+}
 
 /* ===== RESULT COUNT ===== */
 .resultCount {
@@ -92,7 +102,7 @@
   background-color: rgb(249, 249, 249);
   padding: 22px 24px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -100,7 +110,7 @@
 }
 
 .result:hover {
-  box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
 }
 
 /* ===== CARD HEADER ===== */
@@ -313,7 +323,10 @@
   transition: background-color 0.3s;
   white-space: nowrap;
 }
-.btnMore:hover { background-color: rgb(13, 153, 99); }
+
+.btnMore:hover {
+  background-color: rgb(13, 153, 99);
+}
 
 .btnContact {
   background-color: white;
@@ -327,6 +340,7 @@
   transition: all 0.3s;
   white-space: nowrap;
 }
+
 .btnContact:hover {
   background-color: rgb(16, 191, 124);
   color: white;
@@ -356,12 +370,26 @@
   transform: scale(1.1);
 }
 
-.thumbUp.active { background-color: #d4f5e9; }
-.thumbDown.active { background-color: #fde8ea; }
+.thumbUp.active {
+  background-color: #d4f5e9;
+}
+
+.thumbDown.active {
+  background-color: #fde8ea;
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
-  .cardHeader { flex-wrap: wrap; }
-  .metaRow { gap: 10px; }
-  .cardFooter { flex-direction: column; align-items: flex-start; }
+  .cardHeader {
+    flex-wrap: wrap;
+  }
+
+  .metaRow {
+    gap: 10px;
+  }
+
+  .cardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
