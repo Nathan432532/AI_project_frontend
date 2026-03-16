@@ -7,12 +7,14 @@ import CompanyResultPage from "./pages/ResultPages/ResultPageCompany/CompanyResu
 import SearchPageJob from "./pages/SearchPages/SearchPageJob";
 import SearchPageCompany from "./pages/SearchPages/SearchPageCompany/SearchPageCompany";
 import SavedResultsPage from "./pages/SavedResultsPage/SavedResultsPage";
+import AdminSettingsPageCompany from "./pages/AdminPage/AdminPageCompany/AdminSettingsPage";
+import AdminSettingsPageJobs from "./pages/AdminPage/AdminPageJobs/AdminSettingsPage";
 
 
 function App() {
   return (
     <>
-      <Header userName="Jan Janssen"/>
+      <Header userName="Jan Janssen" />
       <Routes>
         {/*<Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -22,6 +24,8 @@ function App() {
         <Route path="/search/company" element={<SearchPageCompany />} />
         <Route path="/results/company" element={<CompanyResultPage />} />
         <Route path="/results/job" element={<JobResultPage />} />
+        <Route path="/admin/settings/job" element={<AdminSettingsPageJobs />} />
+        <Route path="/admin/settings/company" element={<AdminSettingsPageCompany />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/saved" element={<SavedResultsPage />} />
       </Routes>
