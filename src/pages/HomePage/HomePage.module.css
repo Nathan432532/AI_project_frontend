@@ -1,0 +1,182 @@
+/* ===== MAIN ===== */
+.main {
+  background-color: rgb(164, 214, 195);
+  flex-grow: 1;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.main > * {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ===== WELCOME ===== */
+.welcome {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.welcomeTitle {
+  color: rgb(16, 191, 124);
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.welcomeSub {
+  color: #333;
+  font-size: 1.2em;
+}
+
+/* ===== PRIMARY GRID ===== */
+.primaryGrid {
+  display: flex;
+  gap: 25px;
+}
+
+/* ===== CARD ===== */
+.card {
+  background-color: rgb(249, 249, 249);
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 30px 24px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-decoration: none;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cardIcon {
+  font-size: 3em;
+  margin-bottom: 15px;
+  color: rgb(16, 191, 124);
+}
+
+.cardTitle {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.cardDesc {
+  font-size: 0.9em;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* ===== SECONDARY GRID ===== */
+.secondaryGrid {
+  width: 100%;
+  max-width: 900px;
+}
+
+.cardSecondary {
+  background-color: rgb(249, 249, 249);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.secondaryInner {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.secondaryIcon {
+  font-size: 2.4em;
+  flex-shrink: 0;
+  color: rgb(16, 191, 124);
+}
+
+.adminRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btnAdmin {
+  background-color: rgb(16, 191, 124);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 9px 16px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.btnAdmin:hover {
+  background-color: rgb(13, 153, 99);
+}
+
+/* ===== STATS ROW ===== */
+.statsRow {
+  display: flex;
+  gap: 20px;
+}
+
+.statCard {
+  flex: 1;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07);
+  border-top: 3px solid rgb(16, 191, 124);
+}
+
+.statNumber {
+  font-size: 2em;
+  font-weight: 700;
+  color: rgb(16, 191, 124);
+}
+
+.statLabel {
+  font-size: 0.85em;
+  color: #666;
+  text-align: center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .primaryGrid {
+    flex-direction: column;
+  }
+
+  .statsRow {
+    flex-direction: column;
+  }
+
+  .secondaryInner {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
